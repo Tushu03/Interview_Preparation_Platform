@@ -22,7 +22,11 @@ public class AIService {
     @Autowired
     private RestTemplate restTemplate;
 
-   
+   private static final String TOKEN = "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";
+    
+    
+    private static final String API_URL =
+    		  "https://api.groq.com/openai/v1/chat/completions";
 
     public List<InterviewQuestion> generateQuestions(String prompt) {
     	
@@ -39,7 +43,7 @@ public class AIService {
     			+ ""+prompt+"Only return a JSON array of questions. No explanation or additional text.";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer " + "TOKEN");
+        headers.set("Authorization", "Bearer " + TOKEN);
 
         Map<String, Object> requestBody = Map.of(
             "model", "llama-3.1-8b-instant",
@@ -51,7 +55,7 @@ public class AIService {
         );
 
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity("API_URL", requestEntity, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(API_URL", requestEntity, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -115,7 +119,7 @@ public class AIService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth("TOKEN");
+        headers.setBearerAuth(TOKEN);
 
         Map<String, Object> body = Map.of(
                 "model", "llama-3.1-8b-instant",
@@ -130,7 +134,7 @@ public class AIService {
                 new HttpEntity<>(body, headers);
 
         ResponseEntity<String> response =
-                restTemplate.postForEntity("API_URL", request, String.class);
+                restTemplate.postForEntity(API_URL, request, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
